@@ -25,8 +25,8 @@ The group members declare that they have not copied material from the Internet
 Fill in the lines below with the name and email of the group members.
 Replace XX with the contribution of each group member in the development of the work.
 
-Mateus Cursino Gomes Costa <mateuscgcosta@ufmg.br> XX%
-Name <email@ufmg.br> XX%
+Mateus Cursino Gomes Costa <mateuscgcosta@ufmg.br> 50%
+Lucas Emanuel Elias Alvees <lucaseliasalves@ufmg.br> 50%
 
 3. Solutions
 
@@ -122,14 +122,18 @@ int fork1(void) {
     The function is supposed to create a new process using the `fork()` system call.
     It should print a message if the fork fails, otherwise return the process ID of the child process (or -1 if the fork fails).
     */
-    fprintf(stderr, "Fork function not implemented\n");
-    exit(-1);
+    pid_t id = fork();
+    if (id == -1){
+        fprintf(stderr, "ERROR: fork failed\n");
+        exit(-1);
+    }
+    return id;
     /* END OF TASK 1 */
 }
 
 void handle_simple_cmd(struct execcmd *ecmd) {
     /* Task 2: Implement the code below to execute simple commands. */
-    fprintf(stderr, "exec not implemented\n");
+    execvp(ecmd->argv[0], ecmd->argv);
     /* END OF TASK 2 */
 }
 
