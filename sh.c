@@ -159,11 +159,9 @@ void handle_redirection(struct redircmd *rcmd) {
             default:
                 fprintf(stderr, "ERROR:A redirect failed\n");
                 exit(-1);
-    
         }
         runcmd(rcmd->cmd);
     }
-    
     /* END OF TASK 3 */
 }
 
@@ -192,7 +190,10 @@ int main(void) {
         /* Task 5: Explain the purpose of the if statement below and correct the error message.
         Why is the current error message incorrect? Justify the new message. */
         /* Answer:
-
+            *PRECISA SER REESCRITO* O if aqui é pra garantir q o "cd ..." achou um caminho q realmente
+            existe ou não, ele basicamente chama a função chdir que muda o diretorio atual
+            e checa se a função deu certo, não tem nada a ver com o processo existir ou n, pra
+            corrigir da pra reescrever a mensagem de erro como "path does not exist" 
          */
         if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ') {
             buf[strlen(buf) - 1] = 0;
