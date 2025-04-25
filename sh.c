@@ -167,7 +167,32 @@ void handle_redirection(struct redircmd *rcmd) {
 
 void handle_pipe(struct pipecmd *pcmd, int *p, int r) {
     /* Task 4: Implement the code below to handle pipes. */
-    fprintf(stderr, "pipe not implemented\n");
+
+    if (pipe(p) < 0) { //caso de erro
+        fprintf(stderr,"Pipe failed");
+        exit(-1);
+    }
+
+
+    if (fork1() == 0){ //filho 1
+        close(p[0]);
+        dup2(p[1],STDOUT_FILENO);
+        runcmd(pcmd->left);
+    }
+    
+    if(fork1() ==0 ){ //filho 2
+        close(p[1]);
+        dup2(p[0],STDIN_FILENO);
+        runcmd(pcmd->right);
+        
+    }
+
+    close(p[0]);
+    close(p[1]);
+
+    wait(&r);
+    wait(&r);
+
     /* END OF TASK 4 */
 }
 
