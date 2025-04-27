@@ -32,9 +32,31 @@ Lucas Emanuel Elias Alvees <lucaseliasalves@ufmg.br> 50%
 
 Briefly describe the solutions implemented for this project and justify their choices.
 
+-TASK 1
+
+
+-TASK 2
+
+
+-TASK 3
+Inicialmente um arquivo é aberto para leitura ou escrita como parametrizado na função,
+então é feito um switch entre "<" e ">", depois a tabela de arquivos do processo é alterada 
+usando a funcao dup2 como visto em sala. Após o endereço de entrada ou saida do processo ser 
+corretamente alterado o comando é executado usando runcmd(). Testes de erro são feitos após
+abertura de arquivos e no switch.
+
+-TASK 4
+Um pipe é criado usando a função pipe() e o array passado por parâmetro, então um fork
+é feito para cada comando do pipe e dentro delas o processo da funcão da esquerda tem seu 
+indice de saida padrão alterado para extremidade de escrita do pipe e o processo da função 
+da direita tem seu indice de entrada alterado para extremidade de leitura. Extremidades do pipe 
+não utilizadas pelos processos são devidamente fechadas para criar um fluxo de dados unico. Os
+respectivos comandos são executados no processo da direita e da esquerda e o processo pai espera pelo
+fim dos processos filhos ao final da execução.
+
 4. Bibliographic references
 
-Add the bibliographic references here.
+Abraham Silberschatz, Peter B. Galvin, Greg Gagne: Operating System Concepts Eighth (8th) Edition 
 
 */
 
@@ -143,7 +165,6 @@ void handle_redirection(struct redircmd *rcmd) {
     if (dup2(newFile, rcmd->fd) < 0)
         fprintf(stderr, "ERROR: open file failed\n");
     else{
-        //fprintf(stderr, "ERROR: test %d deveria ser %d ou %d\n", rcmd->mode,'<','>');
         switch (rcmd->type) {
 
             case '<':
@@ -215,15 +236,16 @@ int main(void) {
         /* Task 5: Explain the purpose of the if statement below and correct the error message.
         Why is the current error message incorrect? Justify the new message. */
         /* Answer:
-            *PRECISA SER REESCRITO* O if aqui é pra garantir q o "cd ..." achou um caminho q realmente
-            existe ou não, ele basicamente chama a função chdir que muda o diretorio atual
-            e checa se a função deu certo, não tem nada a ver com o processo existir ou n, pra
-            corrigir da pra reescrever a mensagem de erro como "path does not exist" 
+            O if abaixo tem como propósito garantir que, no caso em que o comando realizado no terminal
+            é "cd", o path fornecido como argumento realmente existe. A mensagem de erro original estava
+            incorreta pois ela dizia que o processo não existia mas o erro não esta relacionado de formal 
+            alguma a processos inexistentes e sim a ausencia do caminho fornecido como argumento. Desta forma,
+            a nova mensagem está correta e informa o corretamente que o caminho de arquivos não existe. 
          */
         if (buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' ') {
             buf[strlen(buf) - 1] = 0;
             if (chdir(buf + 3) < 0)
-                fprintf(stderr, "process does not exist\n");
+                fprintf(stderr, "file path does not exist\n");
             continue;
         }
         /* END OF TASK 5 */
