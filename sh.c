@@ -33,10 +33,14 @@ Lucas Emanuel Elias Alvees <lucaseliasalves@ufmg.br> 50%
 Briefly describe the solutions implemented for this project and justify their choices.
 
 -TASK 1
-
+Simplesmente chamamos a função fork() que por meio de uma chamada de sistema duplica
+o processo atual, retornando para a variável id. Se algum erro resultar da chamada,
+saímos do programa, caso o contrário, retornamos o id do processo filho.
 
 -TASK 2
-
+Chamamos a função execvp() que por meio de uma chamada de sistema substitui o processo atual.
+No primeiro parâmetro, passamos o nome do programa e como segundo parâmetro o vetor de argumentos
+para o programa a ser substituído.
 
 -TASK 3
 Inicialmente um arquivo é aberto para leitura ou escrita como parametrizado na função,
